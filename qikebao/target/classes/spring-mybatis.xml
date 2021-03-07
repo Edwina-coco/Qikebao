@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--获取数据库配置文件-->
+    <context:property-placeholder location="classpath:database.properties"/>
+    <context:component-scan base-package="cn.studst"/>
+
+
+    <!--配置数据库连接池-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.username}"/>
+    </bean>
+
+    <!--配置sqlSessionFactory，获取sqlSession,sqlSession实现数据库的增删改查-->
+    <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+
+    <!--配置Dao扫描包，动态实现Dao（Mapper）接口注入到Spring容器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--注入sqlsessionFactory-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="cn.studst.mapper"/>
+</bean>
+
+    <!--配置事务管理,事务是对一系列的数据库操作（比如插入多条数据）进行统一的提交或回滚操作，-->
+    <!--如果插入成功，那么一起成功，如果中间有一条出现异常，那么回滚之前的所有操作，这样可以防止出现脏数据，防止数据库数据出现问题。-->
+    <!--这一系列处理需要我们对其进行管理。spring通过注入来完成事务管理-->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--注入数据库连接池，实现事务处理-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.studst.mapper.ProductMapper">
+    <insert id="insertProduct" parameterType="product">
+        INSERT INTO ssmbuild.common_product(Product_name, Product_id, Product_price, Product_cost,Product_profile) VALUES
+        (#{Product_name},#{Product_id},#{Product_price},#{Product_cost},#{Product_profile})
+    </insert>
+
+    <select id="selectAllProduct" resultType="product">
+        SELECT * FROM ssmbuild.common_product
+    </select>
+
+    <delete id="deleteProductById" parameterType="int">
+        DELETE FROM ssmbuild.common_product WHERE Product_id=#{Product_id}
+    </delete>
+
+    <select id="selectProductByName" parameterType="String" resultType="product">
+        SELECT * FROM ssmbuild.common_product WHERE Product_name=#{Product_name}
+    </select>
+
+    <insert id="insertProduct1" parameterType="product1">
+        INSERT INTO ssmbuild.special_product(Product_name, Product_id, Product_price, Product_cost,Product_profile) VALUES
+        (#{Product_name},#{Product_id},#{Product_price},#{Product_cost},#{Product_profile})
+    </insert>
+
+    <select id="selectAllProduct1" resultType="product1">
+        SELECT * FROM ssmbuild.special_product
+    </select>
+
+    <select id="selectProduct1ByName" parameterType="String" resultType="product1">
+        SELECT * FROM ssmbuild.special_product WHERE Product_name=#{Product_name}
+    </select>
+
+    <delete id="deleteProduct1ById" parameterType="int">
+        DELETE FROM ssmbuild.special_product WHERE Product_id=#{Product_id}
+    </delete>
+
+    <insert id="insertProduct2" parameterType="product2">
+        INSERT INTO ssmbuild.electronic_product(Product_name, Product_id, Product_price, Product_cost,Product_profile) VALUES
+        (#{Product_name},#{Product_id},#{Product_price},#{Product_cost},#{Product_profile})
+    </insert>
+
+    <select id="selectAllProduct2" resultType="product2">
+        SELECT * FROM ssmbuild.electronic_product
+    </select>
+
+    <select id="selectProduct2ByName" parameterType="String" resultType="product2">
+        SELECT * FROM ssmbuild.electronic_product WHERE Product_name=#{Product_name}
+    </select>
+
+    <delete id="deleteProduct2ById" parameterType="int">
+        DELETE FROM ssmbuild.electronic_product WHERE Product_id=#{Product_id}
+    </delete>
+</mapper>
